@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.entity.Pessoa;
 import com.example.demo.model.entity.Produto;
 import com.example.demo.model.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,13 @@ public class ProdutoController {
     @PostMapping
     public Produto inserir(@RequestBody Produto produtoAInserir) {
         return this.produtoService.inserirOuAtualizar(produtoAInserir);
+    }
+
+    @PutMapping("/{id}")
+    public Produto atualizar(@PathVariable("id") Long idProduto,
+                            @RequestBody Produto produtoAAtualizar) {
+        produtoAAtualizar.setId(idProduto);
+        return this.produtoService.inserirOuAtualizar(produtoAAtualizar);
     }
 
     @DeleteMapping("/{id}")
