@@ -28,17 +28,22 @@ public class Pessoa {
     @Column(name="senha")
     private String senha;
 
-    @Column(name="telefone")
-    private String telefone;
+//    @Column(name="telefone")
+//    private String telefone;
+//
+//    @Column(name="cpf")
+//    private String cpf;
+//
+//    @Column(name="data_de_nascimento")
+//    private LocalDate dataDeNascimento;
+//
+//    @Column(name="imagem")
+//    private String imagem;
 
-    @Column(name="cpf")
-    private String cpf;
+    @ManyToMany
+    private List<Role> roles;
 
-    @Column(name="data_de_nascimento")
-    private LocalDate dataDeNascimento;
 
-    @Column(name="imagem")
-    private String imagem;
 
 //    @OneToMany(fetch = FetchType.LAZY,mappedBy = "cliente",cascade = CascadeType.REMOVE,orphanRemoval=true)
 //    private List<Produto> produtos = new ArrayList<>();

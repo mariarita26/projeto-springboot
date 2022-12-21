@@ -34,6 +34,17 @@ public class PessoaService {
         this.pessoaRepository.deleteById(id);
     }
 
+    public Pessoa execute(Pessoa user) {
 
+        Pessoa existsUser = pessoaRepository.findByNome(user.getNome());
+
+        if (existsUser != null) {
+            throw new Error("User already exists!");
+        }
+
+        Pessoa createdUser = pessoaRepository.save(user);
+
+        return createdUser;
+    }
 }
 

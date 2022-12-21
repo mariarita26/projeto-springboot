@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.PessoaRoleDTO;
 import com.example.demo.model.entity.Pessoa;
 import com.example.demo.model.service.PessoaService;
+import com.example.demo.model.service.RoleUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,6 +18,10 @@ public class PessoaController {
 
     @Autowired
     private PessoaService pessoaService;
+
+    @Autowired
+    RoleUserService roleUserService;
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<List<Pessoa>> getPessoas(){
         List<Pessoa> pessoas = pessoaService.getAllPessoa();
@@ -52,4 +58,10 @@ public class PessoaController {
         this.pessoaService.apagar(id);
     }
 
+    // criação das roles
+
+    @PostMapping("/role")
+    public Pessoa role(@RequestBody PessoaRoleDTO pessoaRoleDTO) {
+        return roleUserService.execute(pessoaRoleDTO);
+    }
 }
