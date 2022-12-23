@@ -1,33 +1,27 @@
 package com.example.demo.security;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.web.SecurityFilterChain;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfiguration {
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests().antMatchers("/pessoa", "/pessoa/**").permitAll().and().
-                httpBasic();
-    }
+@Configuration
+public class SecurityConfig  {
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        () -> http.authorizeHttpRequests().antMatchers("/pessoa", "/pessoa/**").permitAll().and().
-                httpBasic();
+    public SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity.csrf().disable().authorizeHttpRequests((request) -> {
+            try {
+                request.requestMatchers("/pessoa", "/pessoa/**")
+                        .permitAll()
+                        .and()
+                        .httpBasic();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }).build();
     }
 
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http.authorizeHttpRequests((authz) -> authz
-//                        .anyRequest().authenticated()
-//                )
-//                .httpBasic(withDefaults());
-//        return http.build();
-//    }
 }

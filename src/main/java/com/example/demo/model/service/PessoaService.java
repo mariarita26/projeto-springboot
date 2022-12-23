@@ -3,6 +3,7 @@ package com.example.demo.model.service;
 import com.example.demo.model.entity.Pessoa;
 import com.example.demo.model.repository.PessoaIF;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +35,10 @@ public class PessoaService {
         this.pessoaRepository.deleteById(id);
     }
 
+    private BCryptPasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
     public Pessoa execute(Pessoa user) {
 
         Pessoa existsUser = pessoaRepository.findByNome(user.getNome());
@@ -41,6 +46,8 @@ public class PessoaService {
         if (existsUser != null) {
             throw new Error("User already exists!");
         }
+
+        user.setSenha(passwordEncoder().encode(user.getSenha()));
 
         Pessoa createdUser = pessoaRepository.save(user);
 
